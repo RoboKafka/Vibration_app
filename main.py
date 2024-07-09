@@ -1,5 +1,5 @@
 import streamlit as st
-import plotly.graph_objs as go
+import matplotlib.pyplot as plt
 from fftvibdata import VibrationDataProcessor
 import numpy as np
 
@@ -26,18 +26,28 @@ if uploaded_file is not None:
         # Process the data with the provided cutoff frequencies
         results = processor.process_data(high_pass_cutoff, low_pass_cutoff)
 
-        # Time domain plot
-        st.subheader('Time Domain Data')
-        fig_time = go.Figure()
-        fig_time.add_trace(go.Scatter(x=results['time'], y=results['vibration'], mode='lines', name='Raw Data', line=dict(color='blue')))
-        fig_time.add_trace(go.Scatter(x=results['time'], y=results['filtered_vibration'], mode='lines', name='Filtered Data', line=dict(color='red')))
-        fig_time.update_layout(title='Time Domain Data', xaxis_title='Time (s)', yaxis_title='Vibration')
-        st.plotly_chart(fig_time)
+        # create 2 columns 
+        col1,col2 = st.columns(2)
+        with col1:
+            # Time domain plots
+            st.subheader('Time Domain Data')
+            
+            fig, ax = plt.subplots()
+            ax.plot(results['time'], results['vibration'], label='Raw Data', color='blue')
+            ax.plot(results['time'], results['filtered_vibration'], label='Filtered Data', color='red')
+            ax.set_xlabel('Time (s)')
+            ax.set_ylabel('Vibration')
+            ax.legend()
+            st.pyplot(fig)
 
-        # Frequency domain plot
-        st.subheader('Frequency Domain Data')
-        fig_freq = go.Figure()
-        fig_freq.add_trace(go.Scatter(x=results['raw_frequencies'], y=results['raw_magnitude'], mode='lines', name='Raw Data', line=dict(color='blue')))
-        fig_freq.add_trace(go.Scatter(x=results['filtered_frequencies'], y=results['filtered_magnitude'], mode='lines', name='Filtered Data', line=dict(color='red')))
-        fig_freq.update_layout(title='Frequency Domain Data', xaxis_title='Frequency (Hz)', yaxis_title='Magnitude')
-        st.plotly_chart(fig_freq)
+        with col2:
+            # Frequency domain plots
+            st.subheader('Frequency Domain Data')
+            
+            fig, ax = plt.subplots()
+            ax.plot(results['raw_frequencies'], results['raw_magnitude'], label='Raw Data', color='blue')
+            ax.plot(results['filtered_frequencies'], results['filtered_magnitude'], label='Filtered Data', color='red')
+            ax.set_xlabel('Frequency (Hz)')
+            ax.set_ylabel('Magnitude')
+            ax.legend()
+            st.pyplot(fig)
