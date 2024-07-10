@@ -1,9 +1,6 @@
-
 import numpy as np
-
 from scipy.signal import butter, filtfilt
 
-# Define the VibrationDataProcessor class
 class VibrationDataProcessor:
     def __init__(self, time, vibration):
         self.time = time
@@ -38,7 +35,7 @@ class VibrationDataProcessor:
     def compute_fft(self, data):
         fft_data = np.fft.fft(data)
         frequencies = np.fft.fftfreq(len(data), d=1/self.sampling_frequency)
-        magnitude = np.abs(fft_data)
+        magnitude = np.abs(fft_data) / len(data)  # Normalizing the magnitude
         return frequencies, magnitude
 
     def process_data(self, high_pass_cutoff, low_pass_cutoff):
@@ -64,3 +61,6 @@ class VibrationDataProcessor:
             'filtered_frequencies': mirrored_filtered_frequencies,
             'filtered_magnitude': mirrored_filtered_magnitude
         }
+
+    def peak_to_peak_acceleration(self, data):
+        return np.ptp(data)

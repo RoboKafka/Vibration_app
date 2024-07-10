@@ -26,28 +26,40 @@ if uploaded_file is not None:
         # Process the data with the provided cutoff frequencies
         results = processor.process_data(high_pass_cutoff, low_pass_cutoff)
 
-        # create 2 columns 
-        col1,col2 = st.columns(2)
+        # Compute peak-to-peak acceleration
+        p2p_acceleration = processor.peak_to_peak_acceleration(vibration)
+
+        # Create three columns for side-by-side plots
+        col1, col2, col3 = st.columns(3)
+
         with col1:
-            # Time domain plots
+            # Time domain plot
             st.subheader('Time Domain Data')
-            
-            fig, ax = plt.subplots()
-            ax.plot(results['time'], results['vibration'], label='Raw Data', color='blue')
-            ax.plot(results['time'], results['filtered_vibration'], label='Filtered Data', color='red')
-            ax.set_xlabel('Time (s)')
-            ax.set_ylabel('Vibration')
-            ax.legend()
-            st.pyplot(fig)
+            fig_time, ax_time = plt.subplots()
+            ax_time.plot(results['time'], results['vibration'], label='Raw Data', color='blue')
+            ax_time.plot(results['time'], results['filtered_vibration'], label='Filtered Data', color='red')
+            ax_time.set_xlabel('Time (s)')
+            ax_time.set_ylabel('Vibration')
+            ax_time.legend()
+            st.pyplot(fig_time)
 
         with col2:
-            # Frequency domain plots
+            # Frequency domain plot
             st.subheader('Frequency Domain Data')
-            
-            fig, ax = plt.subplots()
-            ax.plot(results['raw_frequencies'], results['raw_magnitude'], label='Raw Data', color='blue')
-            ax.plot(results['filtered_frequencies'], results['filtered_magnitude'], label='Filtered Data', color='red')
-            ax.set_xlabel('Frequency (Hz)')
-            ax.set_ylabel('Magnitude')
-            ax.legend()
-            st.pyplot(fig)
+            fig_freq, ax_freq = plt.subplots()
+            ax_freq.plot(results['raw_frequencies'], results['raw_magnitude'], label='Raw Data', color='blue')
+            ax_freq.plot(results['filtered_frequencies'], results['filtered_magnitude'], label='Filtered Data', color='red')
+            ax_freq.set_xlabel('Frequency (Hz)')
+            ax_freq.set_ylabel('Magnitude')
+            ax_freq.legend()
+            st.pyplot(fig_freq)
+        
+        with col3:
+            # Peak-to-peak acceleration vs frequency plot
+            st.subheader('Peak-to-Peak Acceleration vs Frequency')
+            fig_p2p, ax_p2p = plt.subplots()
+            ax_p2p.plot(results['raw_frequencies'], [p2p_acceleration] * len(results['raw_frequencies']), label='P2P Acceleration', color='green')
+            ax_p2p.set_xlabel('Frequency (Hz)')
+            ax_p2p.set_ylabel('Peak-to-Peak Acceleration')
+            ax_p2p.legend()
+            st.pyplot(fig_p2p)
