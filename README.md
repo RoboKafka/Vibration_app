@@ -3,6 +3,7 @@
 ## Requirements
 
 streamlit
-plotly
+plotly , if you want
 numpy
 scipy
+matplotlib
