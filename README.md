@@ -21,4 +21,9 @@ if uploaded_file is not None:
     time = data[:, 0]
     vibration = data[:, 1]
 ```
+## Example
+Use the csv file provided in the data folder as an example. 
+![Streamlit Interface](images/streamlit_interface.png)
+![Streamlit Dashboard](images/streamlit_dashboard.png)
+
 
