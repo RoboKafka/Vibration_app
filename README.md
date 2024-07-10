@@ -1,9 +1,8 @@
 # Streamlit application for visulizing Vibration data 
 
 ## Requirements
-'''
-streamlit
-plotly
+''' streamlit
+    lotly
 numpy
 scipy
 '''
