@@ -23,7 +23,7 @@ if uploaded_file is not None:
 ```
 ## Example
 Use the csv file provided in the data folder as an example. 
-![Streamlit Interface](images/streamlit_interface.png)
-![Streamlit Dashboard](images/streamlit_dashboard.png)
+![Streamlit Interface](images/VibExample.png)
+
 
 
