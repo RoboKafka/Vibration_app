@@ -62,5 +62,5 @@ class VibrationDataProcessor:
             'filtered_magnitude': mirrored_filtered_magnitude
         }
 
-    def peak_to_peak_acceleration(self, data):
-        return np.ptp(data)
+    def peak_to_peak_acceleration_per_frequency(self, magnitude):
+        return 2 * magnitude  # Since peak-to-peak value in the frequency domain is twice the magnitude

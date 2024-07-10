@@ -26,8 +26,8 @@ if uploaded_file is not None:
         # Process the data with the provided cutoff frequencies
         results = processor.process_data(high_pass_cutoff, low_pass_cutoff)
 
-        # Compute peak-to-peak acceleration
-        p2p_acceleration = processor.peak_to_peak_acceleration(vibration)
+        # Compute peak-to-peak acceleration for each frequency component
+        p2p_acceleration = processor.peak_to_peak_acceleration_per_frequency(results['raw_magnitude'])
 
         # Create three columns for side-by-side plots
         col1, col2, col3 = st.columns(3)
@@ -58,7 +58,7 @@ if uploaded_file is not None:
             # Peak-to-peak acceleration vs frequency plot
             st.subheader('Peak-to-Peak Acceleration vs Frequency')
             fig_p2p, ax_p2p = plt.subplots()
-            ax_p2p.plot(results['raw_frequencies'], [p2p_acceleration] * len(results['raw_frequencies']), label='P2P Acceleration', color='green')
+            ax_p2p.plot(results['raw_frequencies'], p2p_acceleration, label='P2P Acceleration', color='green')
             ax_p2p.set_xlabel('Frequency (Hz)')
             ax_p2p.set_ylabel('Peak-to-Peak Acceleration')
             ax_p2p.legend()
